@@ -1,6 +1,6 @@
 package hangmanPackage;
 
-public class GameWonException extends Exception {
+public class GameWonException extends GameException {
 
 	/**
 	 * 

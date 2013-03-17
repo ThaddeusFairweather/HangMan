@@ -5,12 +5,16 @@
 package hangmanGUI;
 
 import hangmanGUI.Config.victimIdxEnum;
+import hangmanPackage.GameOverException;
+import hangmanPackage.GameWonException;
 import hangmanPackage.Hangman;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Graphics;
+import java.awt.Image;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -21,10 +25,15 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.JLabel;
+import java.awt.Canvas;
+import java.io.File;
 
 public class HangmanGUI extends JFrame {
 
@@ -32,12 +41,15 @@ public class HangmanGUI extends JFrame {
 	 * 
 	 */
 	private Config myConfig;
-	
+
 	private static final long serialVersionUID = -7261224931517376685L;
 	private myJPanel contentPane; 
 	private Hangman hangman;
 	private JTextField txtGuess;
 	private JButton btnGuess;
+	JLabel lblWordProgress;
+	ImageCanvas cvsWinner;
+	BufferedImage youWinImage;
 
 	/**
 	 * Launch the application.
@@ -64,19 +76,19 @@ public class HangmanGUI extends JFrame {
 		myConfig = new Config();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 400, 450, 300);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
-		
+
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
 		mnFile.add(mntmPreferences);
-		
+
 		JMenu mnGame = new JMenu("Game");
 		menuBar.add(mnGame);
-		
+
 		JMenuItem mntmNew = new JMenuItem("New");
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -103,22 +115,41 @@ public class HangmanGUI extends JFrame {
 		contentPane.add(txtGuess);
 		txtGuess.setColumns(10);
 		btnGuess = new JButton("Guess");
-		btnGuess.setBounds(318, 10, 63, 23);
+		btnGuess.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GuessALetter();
+			}
+		});
+		btnGuess.setBounds(306, 10, 75, 23);
 		contentPane.add(btnGuess);
+		
+		lblWordProgress = new JLabel("your guess here");
+		lblWordProgress.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWordProgress.setFont(new Font("Courier New", Font.BOLD, 18));
+		lblWordProgress.setBounds(189, 180, 245, 36);
+		contentPane.add(lblWordProgress);
+		
+		cvsWinner = new ImageCanvas("Images/youWin.jpg");
+		cvsWinner.setBounds(160, 37, 100, 100);
+		contentPane.add(cvsWinner);
+
+		hangman = new Hangman();// A new instance of the game engine will default to idle mode.
+		PrepTheDisplay();
 	}
 	private void Init() {
 		
 	}
 
 	public void Go() {
+		/* Be careful what code you put in here... the instance of the GUI has not been instantiated yet */
+		/* Put the code in the HangmanGUI constructor or reference the frame object, below. */
 		Init();	
-		hangman = new Hangman();// A new instance of the game engine will default to idle mode.
 		HangmanGUI frame = new HangmanGUI();
-		PrepTheDisplay();
 		frame.setVisible(true);
 	}
 
 	private void NewGame(){
+		//hangman = new Hangman();// A new instance of the game engine will default to idle mode.
 		hangman.startNewGame(null);
 		myConfig.setVictimIdx(victimIdxEnum.victimIdxNew);
 		PrepTheDisplay();
@@ -128,25 +159,57 @@ public class HangmanGUI extends JFrame {
 		switch (hangman.getGameMode()) {
 		case idle:
 			DisplayGameControls(false, true);
+			cvsWinner.setVisible(false);
+			break;
+		case won:
+			DisplayGameControls(true, false);
+			cvsWinner.setVisible(true);
 			break;
 		case inProgress:
 			DisplayGameControls(true, true);
+			cvsWinner.setVisible(false);
 			break;
 		case lost:
 			DisplayGameControls(true, false);
+			cvsWinner.setVisible(false);
 			break;
 		case resigned:
 			DisplayGameControls(true, false);
+			cvsWinner.setVisible(false);
 			break;
 		default:
 			break;
-		
 		}
+		lblWordProgress.setText(hangman.getWordProgress());
 	}
-	
+
 	private void DisplayGameControls(boolean visible, boolean enabled) {
 		txtGuess.setVisible(visible);
 		btnGuess.setVisible(visible);
-		
+		lblWordProgress.setVisible(visible);
 	}
+	/**
+	 * Draw the word with underscores for unguessed letters
+	 */
+	private void DisplayWordProgress(){
+		String wordProgress = hangman.getWordProgress();
+		lblWordProgress.setText(wordProgress);
+	
+	}
+	private void GuessALetter() {
+		try {
+			StringBuilder letter  = new StringBuilder(1);	// The one is the length of the object
+			letter.append(txtGuess.getText().trim().charAt(0));
+			hangman.guess(new String(letter));
+			DisplayWordProgress();
+		} catch (GameOverException e) {
+			// We lost
+		} catch (GameWonException e) {
+			// We won
+			PrepTheDisplay();
+		} 
+		txtGuess.setText("");
+		txtGuess.requestFocus();
+	}
+
 }

@@ -5,7 +5,7 @@ import java.lang.*;
 /**
  */
 public class Hangman {
-	static public enum enumGameMode  {idle, inProgress, resigned, lost};
+	static public enum enumGameMode  {idle, inProgress, won, resigned, lost};
 	
 	private enumGameMode gameMode;
 	
@@ -33,14 +33,14 @@ public class Hangman {
      */
     public Hangman() {
     	gameMode = enumGameMode.idle;
-    	//setGameMode(enumGameMode.idle);
+
     }
     
     /**
      * @return the word being guessed
      */
     public String getWord() {
-        return null;
+        return word;
     }
 
     /**
@@ -49,7 +49,8 @@ public class Hangman {
      * @return The word that was passed in as a parameter
      */
     public String setWord(String word) {
-        return null;
+    	this.word = word;
+        return word;
     }
 
     /**
@@ -74,7 +75,25 @@ public class Hangman {
      * @param letter The letter that is being guessed
      * @return True if the letter was in the word and has not been already guessed, false otherwise
      */
-    public boolean guess(char letter) {
+    public boolean guess(String letter) throws GameWonException, GameOverException {
+    	//CharSequence tmp = new String(letter);
+    	// Add to the list of guessed letters
+    	if (!(guessedLetters.contains(letter))) {
+    		guessedLetters += letter;
+    	}
+    	// Did we win?
+		if (!getWordProgress().contains("-")) {
+			gameMode = enumGameMode.won;
+			throw new GameWonException();
+		}
+		// Did we lose?
+    	if (!word.contains(letter)) {
+    		numberOfGuesses++;
+    		if (numberOfGuesses == maxNumberOfGuesses) {
+    			gameMode = enumGameMode.lost;
+    			throw new GameOverException();
+    		}
+    	}
         return false;
     }
 
@@ -94,7 +113,7 @@ public class Hangman {
     	setWord(word);
     	numberOfGuesses = 0;
     	guessedLetters = "";
-    	gameMode = enumGameMode.idle;
+    	gameMode = enumGameMode.inProgress;
     }
     
     private String getRandomWord() {
@@ -102,6 +121,31 @@ public class Hangman {
     }
     
     public enumGameMode getGameMode() {return gameMode;}
-    
+ 
+    /**
+     * Build a string with the guessed letters and with underscores everywhere else
+     * @return
+     */
+    public String getWordProgress() {
+    	StringBuilder wordProgress = new StringBuilder();
+    	String word = getWord();
+    	char letter;
+    	// This method could be called when a word has not yet been established
+    	if (word != null) {
+	    	for (int i = 0; i < word.length(); i++) {
+	    		letter = word.charAt(i);
+	    		// The contains method requires an object that implements the CharSequence interface...
+	    		StringBuilder tmp = new StringBuilder(1);
+	    		tmp.append(letter);
+	    		if (guessedLetters.contains(tmp)) {
+	    			wordProgress = wordProgress.append(letter);
+	    		} else {
+	    			wordProgress = wordProgress.append("-");
+//	    			wordProgress = wordProgress.append((char)(150));
+	    		}
+	    	}
+    	}
+    	return new String(wordProgress);
+    }
 }
 
