@@ -5,6 +5,10 @@ import java.lang.*;
 /**
  */
 public class Hangman {
+	static public enum enumGameMode  {idle, inProgress, resigned, lost};
+	
+	private enumGameMode gameMode;
+	
     /**
      * This is the word that the player is trying to guess.
      */
@@ -25,7 +29,15 @@ public class Hangman {
     private String guessedLetters;
 
     /**
-     * @return 
+     * Constructor
+     */
+    public Hangman() {
+    	gameMode = enumGameMode.idle;
+    	//setGameMode(enumGameMode.idle);
+    }
+    
+    /**
+     * @return the word being guessed
      */
     public String getWord() {
         return null;
@@ -78,6 +90,18 @@ public class Hangman {
      * @param word The word to be guessed. If null, this method will generate a word
      */
     public void startNewGame(String word) {
+    	if (word == null) word = getRandomWord();
+    	setWord(word);
+    	numberOfGuesses = 0;
+    	guessedLetters = "";
+    	gameMode = enumGameMode.idle;
     }
+    
+    private String getRandomWord() {
+    	return "plugh";
+    }
+    
+    public enumGameMode getGameMode() {return gameMode;}
+    
 }
 
