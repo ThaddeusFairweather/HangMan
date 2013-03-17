@@ -18,7 +18,7 @@ public class Config {
 	public static enum victimIdxEnum{victimIdxNew, victimIdxHead, victimIdxTorso
 		                            ,victimIdxLeftArm, victimIdxRightArm
 		                            ,victimIdxLeftLeg, victimIdxRightLeg };
-	
+	 
 	public Config() {
 		baseHeight = 20;
 		baseWidth = 200;

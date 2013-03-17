@@ -66,7 +66,7 @@ public class Body {
 			g.setColor(config.getBackgroundColor()); 
 			g.fillRect(x-headDiameter/2, y, 
 					   armWidth*2 + torsoWidth+2, headDiameter + torsoHeight + legLength+2);
-			
+			 
 			g.setColor(Color.gray);
 			// List the body parts 'backward' so each case falls through to the next case.
 			switch (victimIdxTmp) {

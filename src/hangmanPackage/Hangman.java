@@ -128,7 +128,7 @@ public class Hangman {
     private String getRandomWord() {
     	return "pplugh";
     }
-    
+     
     public enumGameMode getGameMode() {return gameMode;}
  
     /**

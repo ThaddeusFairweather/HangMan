@@ -116,7 +116,7 @@ public class HangmanGUI extends JFrame {
 		btnGuess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				GuessALetter();
-			}
+			} 
 		});
 		btnGuess.setBounds(306, 10, 75, 23);
 		contentPane.add(btnGuess);
