@@ -10,14 +10,14 @@ import javax.swing.JPanel;
 
 public class myJPanel extends JPanel {
 
-	private Config myConfig;
+	private Config config;
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -1636029535660955315L;
 
 	public myJPanel(Config myConfig) {
-		this.myConfig = myConfig;
+		this.config = myConfig;
 	}
 	@Override public void paintComponent(Graphics g) {
         super.paintComponent(g);    // paints background
@@ -26,39 +26,35 @@ public class myJPanel extends JPanel {
    }
 	private void DrawAssembly(Graphics g) {
 		// Base
-		g.drawRect(myConfig.getLeftMargin()
-				 , myConfig.getTopMargin()  + myConfig.getPoleHeight() + myConfig.getArmHeight()
-				 , myConfig.getBaseWidth()
-				 , myConfig.getBaseHeight());
+		g.drawRect(config.getLeftMargin()
+				 , config.getTopMargin()  + config.getPoleHeight() + config.getArmHeight()
+				 , config.getBaseWidth()
+				 , config.getBaseHeight());
 
 		// Pole
-		g.drawRect(myConfig.getLeftMargin() + myConfig.getPoleOffsetFromLeftEdgeOfBase()
-				 , myConfig.getTopMargin()  + myConfig.getArmHeight()
-				 , myConfig.getPoleWidth()
-				 , myConfig.getPoleHeight());
+		g.drawRect(config.getLeftMargin() + config.getPoleOffsetFromLeftEdgeOfBase()
+				 , config.getTopMargin()  + config.getArmHeight()
+				 , config.getPoleWidth()
+				 , config.getPoleHeight());
 		
 		// Arm
-		g.drawRect(myConfig.getLeftMargin() + myConfig.getPoleOffsetFromLeftEdgeOfBase()
-				 , myConfig.getTopMargin() + myConfig.getArmHeight()
-				 , myConfig.getArmWidth()
-				 , myConfig.getArmHeight());
+		g.drawRect(config.getLeftMargin() + config.getPoleOffsetFromLeftEdgeOfBase()
+				 , config.getTopMargin() + config.getArmHeight()
+				 , config.getArmWidth()
+				 , config.getArmHeight());
 		
 		// Rope dangling from the arm
-		g.drawRect(myConfig.getLeftMargin() + myConfig.getPoleOffsetFromLeftEdgeOfBase() + (int)(myConfig.getArmWidth()*.75) 
-				 , myConfig.getTopMargin() + myConfig.getArmHeight()
+		g.drawRect(config.getLeftMargin() + config.getPoleOffsetFromLeftEdgeOfBase() + (int)(config.getArmWidth()*.75) 
+				 , config.getTopMargin() + config.getArmHeight()
 				 , 1
-				 , myConfig.getRopeLength());
+				 , config.getRopeLength());
 		
 	}
 	private void DrawVictim(Graphics g)
-	{
-		// Test
-		myConfig.setVictimIdx(Config.victimIdxEnum.victimIdxRightLeg);
-		
-		myConfig.getBody().Draw(g, 
-								myConfig.getVictimIdx(),
-				                myConfig.getLeftMargin() + myConfig.getPoleOffsetFromLeftEdgeOfBase() + (int)(myConfig.getArmWidth()*.75),
-				                myConfig.getTopMargin() + myConfig.getArmHeight()+ myConfig.getRopeLength());
+	{	
+		config.getBody().Draw(g, 
+							  config.getLeftMargin() + config.getPoleOffsetFromLeftEdgeOfBase() + (int)(config.getArmWidth()*.75),
+				              config.getTopMargin() + config.getArmHeight()+ config.getRopeLength());
 	}
 	
 }

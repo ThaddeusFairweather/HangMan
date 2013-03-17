@@ -1,5 +1,8 @@
 package hangmanPackage;
 
+import hangmanGUI.Body;
+import hangmanGUI.Config;
+
 import java.lang.*;
 
 /**
@@ -7,6 +10,7 @@ import java.lang.*;
 public class Hangman {
 	static public enum enumGameMode  {idle, inProgress, won, resigned, lost};
 	
+	private Config config;
 	private enumGameMode gameMode;
 	
     /**
@@ -20,8 +24,9 @@ public class Hangman {
     private int numberOfGuesses;
 
     /**
+     * This should match up with the number of body parts displayed on the gallows. 
      */
-    private int maxNumberOfGuesses = 5;
+    private int maxNumberOfGuesses = 7;
 
     /**
      * The list of letters that the player has already guessed
@@ -31,10 +36,13 @@ public class Hangman {
     /**
      * Constructor
      */
-    public Hangman() {
+    public Hangman(Config config) {
     	gameMode = enumGameMode.idle;
-
+    	this.config = config;
     }
+
+    public void setMaxNumberOfGuesses(int maxNumberOfGuesses){this.maxNumberOfGuesses = maxNumberOfGuesses;}
+    public int getMaxNumberOfGuesses(){return maxNumberOfGuesses;}
     
     /**
      * @return the word being guessed
@@ -89,6 +97,7 @@ public class Hangman {
 		// Did we lose?
     	if (!word.contains(letter)) {
     		numberOfGuesses++;
+			try {config.getBody().AddBodyPart();} catch(Exception ex){}
     		if (numberOfGuesses == maxNumberOfGuesses) {
     			gameMode = enumGameMode.lost;
     			throw new GameOverException();
@@ -117,7 +126,7 @@ public class Hangman {
     }
     
     private String getRandomWord() {
-    	return "plugh";
+    	return "pplugh";
     }
     
     public enumGameMode getGameMode() {return gameMode;}

@@ -4,6 +4,8 @@
  */
 package hangmanGUI;
 
+import java.awt.Color;
+
 public class Config {
 	private int baseHeight, baseWidth;
 	private int poleHeight, poleWidth;
@@ -11,7 +13,7 @@ public class Config {
 	private int leftMargin, topMargin;
 	private int poleOffsetFromLeftEdgeOfBase;
 	private int ropeLength;
-	private victimIdxEnum victimIdx;
+	private Color backgroundColor = new Color(238,238,238);
 	
 	public static enum victimIdxEnum{victimIdxNew, victimIdxHead, victimIdxTorso
 		                            ,victimIdxLeftArm, victimIdxRightArm
@@ -28,13 +30,14 @@ public class Config {
 		topMargin = 10;
 		poleOffsetFromLeftEdgeOfBase = 5;
 		ropeLength = 50;
-		victimIdx = victimIdxEnum.victimIdxNew;
-		myBody = new Body();
+		myBody = new Body(this);
 	}
 	
 	private Body myBody;
 	
 	public Body getBody() {return myBody;}	// Data hiding violated
+	
+	public Color getBackgroundColor(){ return backgroundColor;}
 	
 	public int getBaseHeight(){ return baseHeight;}
 	public void setBaseHeight(int baseHeight) { this.baseHeight = baseHeight;}
@@ -63,8 +66,8 @@ public class Config {
 	public int getPoleOffsetFromLeftEdgeOfBase(){ return poleOffsetFromLeftEdgeOfBase;}
 	public void setPoleOffsetFromLeftEdgeOfBase(int poleOffsetFromLeftEdgeOfBase) { this.poleOffsetFromLeftEdgeOfBase = poleOffsetFromLeftEdgeOfBase;}
 	
-	public victimIdxEnum getVictimIdx(){ return victimIdx;}	
-	public void setVictimIdx(victimIdxEnum victimIdx){this.victimIdx = victimIdx;}
+	//public victimIdxEnum getVictimIdx(){ return victimIdx;}	
+	//public void setVictimIdx(victimIdxEnum victimIdx){this.victimIdx = victimIdx;}
 
 	public int getRopeLength(){ return ropeLength;}
 	public void setRopeLength(int ropeLength) { this.ropeLength = ropeLength;}
