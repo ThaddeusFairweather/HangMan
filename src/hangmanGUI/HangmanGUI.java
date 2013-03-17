@@ -151,7 +151,7 @@ public class HangmanGUI extends JFrame {
 		cvsLoser = new ImageCanvas("Images/youLost.jpg");
 		cvsLoser.setBounds(160, 60, 100, 100);
 		contentPane.add(cvsLoser);
-		
+		 
 		lblGuessedLetters = new JLabel("");
 		lblGuessedLetters.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblGuessedLetters.setVerticalAlignment(SwingConstants.TOP);
@@ -247,7 +247,7 @@ public class HangmanGUI extends JFrame {
 				// We lost
 				PrepTheDisplay();
 			} catch (GameWonException e) {
-				// We won
+				// We won 
 				PrepTheDisplay();
 			} 
 			txtGuess.setText("");

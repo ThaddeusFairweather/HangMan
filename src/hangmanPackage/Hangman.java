@@ -88,7 +88,7 @@ public class Hangman {
     	// Add to the list of guessed letters
     	if (!(guessedLetters.toLowerCase().contains(letter.toLowerCase()))) {
     		guessedLetters += letter.toLowerCase();
-    	}
+    	} 
     	// Did we win?
 		if (!getWordProgress().contains("-")) {
 			gameMode = enumGameMode.won;

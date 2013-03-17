@@ -59,7 +59,7 @@ public class Body {
 				//g.setColor(Color.white); 
 //				g.setColor(config.getBackgroundColor()); 
 //			} else {
-				victimIdxTmp = victimIdx;
+ 				victimIdxTmp = victimIdx;
 //				//g.setColor(Color.black);
 //				g.setColor(Color.blue);
 //			}
