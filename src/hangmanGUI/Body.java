@@ -1,6 +1,7 @@
 /**
  * Bill Nicholson
  * Little Hangman game
+ * It's fun, really.
  */
 package hangmanGUI;
 
