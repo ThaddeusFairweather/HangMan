@@ -26,7 +26,7 @@ public class Hangman {
     /**
      * This should match up with the number of body parts displayed on the gallows. 
      */
-    private int maxNumberOfGuesses = 7;
+    private int maxNumberOfGuesses = 6;
 
     /**
      * The list of letters that the player has already guessed

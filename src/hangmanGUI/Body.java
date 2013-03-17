@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Body {
-	private int headCircumference;
+	private int headDiameter;
 	private int torsoHeight, torsoWidth;
 	private int armWidth, armHeight;
 	private int legWidth, legLength;
@@ -18,7 +18,7 @@ public class Body {
 	
 	public Body(Config config) {
 		this.config = config;
-		headCircumference = 40;
+		headDiameter = 40;
 		torsoHeight = 40;
 		torsoWidth = 20;
 		armWidth = 30;
@@ -32,8 +32,8 @@ public class Body {
 		victimIdx = Config.victimIdxEnum.victimIdxNew;		// No body parts will be drawn
 	}
 
-	public int getHeadCircumference(){ return headCircumference;}
-	public void SetHeadCircumference(int headCircumference){ this.headCircumference = headCircumference;}
+	public int getHeadCircumference(){ return headDiameter;}
+	public void SetHeadCircumference(int headCircumference){ this.headDiameter = headCircumference;}
 	
 	/**
 	 * Increment the bodypart count to display the next body part when it's drawn
@@ -51,31 +51,36 @@ public class Body {
 	 */
 	public void Draw(Graphics g, int x, int y){
 		Config.victimIdxEnum victimIdxTmp;
-		for (int i = 0; i < 2; i++) {
+//		for (int i = 0; i < 2; i++) {
 			// The first we will erase everything. 
 			// The second pass we will draw everything.
-			if (i == 0) {
-				victimIdxTmp = Config.victimIdxEnum.victimIdxRightLeg;
+//			if (i == 0) {
+//				victimIdxTmp = Config.victimIdxEnum.victimIdxRightLeg;
 				//g.setColor(Color.white); 
-				g.setColor(config.getBackgroundColor()); 
-			} else {
+//				g.setColor(config.getBackgroundColor()); 
+//			} else {
 				victimIdxTmp = victimIdx;
-				g.setColor(Color.black);
-			}
-
+//				//g.setColor(Color.black);
+//				g.setColor(Color.blue);
+//			}
+			g.setColor(config.getBackgroundColor()); 
+			g.fillRect(x-headDiameter/2, y, 
+					   armWidth*2 + torsoWidth+2, headDiameter + torsoHeight + legLength+2);
+			
+			g.setColor(Color.gray);
 			// List the body parts 'backward' so each case falls through to the next case.
 			switch (victimIdxTmp) {
 			
 			case victimIdxRightLeg:
 				g.draw3DRect(x + 5
-						   , y + headCircumference + torsoHeight
+						   , y + headDiameter + torsoHeight
 						   , legWidth
 						   , legLength
 						   , true);			
 
 			case victimIdxLeftLeg:
 				g.draw3DRect(x - (legWidth + 5) /*- legWidth/2*/
-						   , y + headCircumference + torsoHeight
+						   , y + headDiameter + torsoHeight
 						   , legWidth
 						   , legLength
 						   , true);
@@ -83,31 +88,31 @@ public class Body {
 			
 			case victimIdxRightArm:
 				g.draw3DRect(x - torsoWidth/2 - armWidth 
-						   , y + headCircumference + torsoHeight/4 
+						   , y + headDiameter + torsoHeight/4 
 				           , armWidth
 				           , armHeight
 				           , true);
 			
 			case victimIdxLeftArm:
 				g.draw3DRect(x + torsoWidth/2 
-						   , y + headCircumference + torsoHeight/4
+						   , y + headDiameter + torsoHeight/4
 				           , armWidth
 				           , armHeight
 				           , true);
 				
 			case victimIdxTorso:
 				g.draw3DRect(x - torsoWidth/2
-						   , y + headCircumference
+						   , y + headDiameter
 						   , torsoWidth
 						   , torsoHeight
 						   , true);
 				
 			case victimIdxHead:
 				// first 2 args are the upper left corner of the arc!
-				g.drawArc(x - headCircumference/2
+				g.drawArc(x - headDiameter/2
 						, y 
-						, headCircumference
-						, headCircumference, 0, 359);
+						, headDiameter
+						, headDiameter, 0, 359);
 			
 			
 			case victimIdxNew:	// No body parts have been hung, yet. 
@@ -115,7 +120,7 @@ public class Body {
 				break;
 		
 			}
-		}	// for (i = 0; i < 2; i++)
+//		}	// for (i = 0; i < 2; i++)
 	}
 	
 }

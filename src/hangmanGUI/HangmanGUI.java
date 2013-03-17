@@ -40,8 +40,6 @@ public class HangmanGUI extends JFrame {
 	/**
 	 * 
 	 */
-	private Config myConfig;
-
 	private static final long serialVersionUID = -7261224931517376685L;
 	private myJPanel contentPane; 
 	private Hangman hangman;
@@ -71,9 +69,9 @@ public class HangmanGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public HangmanGUI() {
+		config = new Config();
 		setTitle("Your Hangman");
 		setResizable(false);
-		myConfig = new Config();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 400, 450, 300);
 
@@ -102,7 +100,7 @@ public class HangmanGUI extends JFrame {
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("About");
 		mnHelp.add(mntmNewMenuItem_1);
-		contentPane = new myJPanel(myConfig);
+		contentPane = new myJPanel(config);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -133,11 +131,10 @@ public class HangmanGUI extends JFrame {
 		cvsWinner.setBounds(160, 37, 100, 100);
 		contentPane.add(cvsWinner);
 		
-		cvsLoser = new ImageCanvas("Images/youLose.jpg");
-		cvsLoser.setBounds(160, 37, 100, 100);
+		cvsLoser = new ImageCanvas("Images/youLost.jpg");
+		cvsLoser.setBounds(160, 60, 100, 100);
 		contentPane.add(cvsLoser);
 
-		config = new Config();
 		hangman = new Hangman(config);// A new instance of the game engine will default to idle mode.
 		PrepTheDisplay();
 	}
@@ -149,8 +146,8 @@ public class HangmanGUI extends JFrame {
 		/* Be careful what code you put in here... the instance of the GUI has not been instantiated yet */
 		/* Put the code in the HangmanGUI constructor or reference the frame object, below. */
 		Init();	
-		HangmanGUI frame = new HangmanGUI();
-		frame.setVisible(true);
+		//HangmanGUI frame = new HangmanGUI();
+		this.setVisible(true);
 	}
 
 	private void NewGame(){
@@ -168,7 +165,7 @@ public class HangmanGUI extends JFrame {
 			cvsLoser.setVisible(false);
 			break;
 		case won:
-			DisplayGameControls(true, false);
+			DisplayGameControls(false, false);
 			cvsWinner.setVisible(true);
 			cvsLoser.setVisible(false);
 			break;
@@ -178,12 +175,12 @@ public class HangmanGUI extends JFrame {
 			cvsLoser.setVisible(false);
 			break;
 		case lost:
-			DisplayGameControls(true, false);
+			DisplayGameControls(false, false);
 			cvsWinner.setVisible(false);
 			cvsLoser.setVisible(true);
 			break;
 		case resigned:
-			DisplayGameControls(true, false);
+			DisplayGameControls(false, false);
 			cvsWinner.setVisible(false);
 			cvsLoser.setVisible(true);
 			break;
@@ -207,7 +204,7 @@ public class HangmanGUI extends JFrame {
 		lblWordProgress.setText(wordProgress);		
 		contentPane.repaint();
 	}
-	
+
 	private void GuessALetter() {
 		if (txtGuess.getText().trim().length() == 1) {
 			try {

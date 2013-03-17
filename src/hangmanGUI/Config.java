@@ -30,12 +30,12 @@ public class Config {
 		topMargin = 10;
 		poleOffsetFromLeftEdgeOfBase = 5;
 		ropeLength = 50;
-		myBody = new Body(this);
+		body = new Body(this);
 	}
 	
-	private Body myBody;
+	private Body body;
 	
-	public Body getBody() {return myBody;}	// Data hiding violated
+	public Body getBody() {return body;}	// Data hiding violated
 	
 	public Color getBackgroundColor(){ return backgroundColor;}
 	
