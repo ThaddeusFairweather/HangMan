@@ -13,6 +13,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -34,6 +35,10 @@ import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import java.awt.Canvas;
 import java.io.File;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.WindowEvent;
 
 public class HangmanGUI extends JFrame {
 
@@ -46,6 +51,7 @@ public class HangmanGUI extends JFrame {
 	private JTextField txtGuess;
 	private JButton btnGuess;
 	private JLabel lblWordProgress;
+	private JLabel lblGuessedLetters;
 	private ImageCanvas cvsWinner, cvsLoser;
 	private BufferedImage youWinImage;
 	private Config config;
@@ -83,11 +89,22 @@ public class HangmanGUI extends JFrame {
 
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
 		mnFile.add(mntmPreferences);
+		
+		//JMenuItem mntmExit = new JMenuItem("Exit");
+		//mntmExit.addActionListener(new ActionListener() {
+		//	public void actionPerformed(ActionEvent arg0) {
+                //WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+                //Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
+		//		this.dispose();
+		//	}
+		//});
+		//mnFile.add(mntmExit);
 
 		JMenu mnGame = new JMenu("Game");
 		menuBar.add(mnGame);
 
 		JMenuItem mntmNew = new JMenuItem("New");
+		mntmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				NewGame();
@@ -134,6 +151,12 @@ public class HangmanGUI extends JFrame {
 		cvsLoser = new ImageCanvas("Images/youLost.jpg");
 		cvsLoser.setBounds(160, 60, 100, 100);
 		contentPane.add(cvsLoser);
+		
+		lblGuessedLetters = new JLabel("");
+		lblGuessedLetters.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblGuessedLetters.setVerticalAlignment(SwingConstants.TOP);
+		lblGuessedLetters.setBounds(21, 223, 100, 14);
+		contentPane.add(lblGuessedLetters);
 
 		hangman = new Hangman(config);// A new instance of the game engine will default to idle mode.
 		PrepTheDisplay();
@@ -156,33 +179,40 @@ public class HangmanGUI extends JFrame {
 		PrepTheDisplay();
 		config.getBody().reset();
 	}
-	
+
 	private void PrepTheDisplay(){
 		switch (hangman.getGameMode()) {
 		case idle:
 			DisplayGameControls(false, true);
 			cvsWinner.setVisible(false);
 			cvsLoser.setVisible(false);
+			DisplayGuessedLetters(false);
 			break;
 		case won:
 			DisplayGameControls(false, false);
 			cvsWinner.setVisible(true);
 			cvsLoser.setVisible(false);
+			lblWordProgress.setVisible(true);
 			break;
 		case inProgress:
 			DisplayGameControls(true, true);
 			cvsWinner.setVisible(false);
 			cvsLoser.setVisible(false);
+			DisplayGuessedLetters(true);
 			break;
 		case lost:
 			DisplayGameControls(false, false);
 			cvsWinner.setVisible(false);
 			cvsLoser.setVisible(true);
+			lblWordProgress.setVisible(true);
+			DisplayGuessedLetters(true);
 			break;
 		case resigned:
 			DisplayGameControls(false, false);
 			cvsWinner.setVisible(false);
 			cvsLoser.setVisible(true);
+			lblWordProgress.setVisible(true);
+			DisplayGuessedLetters(true);
 			break;
 		default:
 			break;
@@ -203,6 +233,7 @@ public class HangmanGUI extends JFrame {
 		String wordProgress = hangman.getWordProgress();
 		lblWordProgress.setText(wordProgress);		
 		contentPane.repaint();
+		DisplayGuessedLetters(true);
 	}
 
 	private void GuessALetter() {
@@ -222,5 +253,9 @@ public class HangmanGUI extends JFrame {
 			txtGuess.setText("");
 			txtGuess.requestFocus();
 		}
+	}
+	private void DisplayGuessedLetters(boolean status) {
+		lblGuessedLetters.setText(hangman.getGuessedLetters());
+		lblGuessedLetters.setVisible(status);
 	}
 }

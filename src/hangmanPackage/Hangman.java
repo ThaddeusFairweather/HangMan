@@ -73,7 +73,7 @@ public class Hangman {
      * @return The list of guessed letters
      */
     public String getGuessedLetters() {
-        return null;
+        return guessedLetters;
     }
 
     /**
@@ -86,8 +86,8 @@ public class Hangman {
     public boolean guess(String letter) throws GameWonException, GameOverException {
     	//CharSequence tmp = new String(letter);
     	// Add to the list of guessed letters
-    	if (!(guessedLetters.contains(letter))) {
-    		guessedLetters += letter;
+    	if (!(guessedLetters.toLowerCase().contains(letter.toLowerCase()))) {
+    		guessedLetters += letter.toLowerCase();
     	}
     	// Did we win?
 		if (!getWordProgress().contains("-")) {
@@ -95,7 +95,9 @@ public class Hangman {
 			throw new GameWonException();
 		}
 		// Did we lose?
-    	if (!word.contains(letter)) {
+		String x = word.toLowerCase(); 
+		String y = letter.toLowerCase();
+    	if (!x.contains(y)) {
     		numberOfGuesses++;
 			try {config.getBody().AddBodyPart();} catch(Exception ex){}
     		if (numberOfGuesses == maxNumberOfGuesses) {
@@ -126,7 +128,8 @@ public class Hangman {
     }
     
     private String getRandomWord() {
-    	return "pplugh";
+//    	return "pplugh";
+    	return "Cat in the hat";
     }
      
     public enumGameMode getGameMode() {return gameMode;}
@@ -138,18 +141,24 @@ public class Hangman {
     public String getWordProgress() {
     	StringBuilder wordProgress = new StringBuilder();
     	String word = getWord();
-    	char letter;
-    	// This method could be called when a word has not yet been established
+    	char letter, letterLowerCase;
+    	// This method could be called when a word has not yet been established so we check for null
     	if (word != null) {
+        	String wordLowerCase = getWord().toLowerCase();
 	    	for (int i = 0; i < word.length(); i++) {
 	    		letter = word.charAt(i);
+	    		letterLowerCase = wordLowerCase.charAt(i);
 	    		// The contains method requires an object that implements the CharSequence interface...
 	    		StringBuilder tmp = new StringBuilder(1);
-	    		tmp.append(letter);
+	    		tmp.append(letterLowerCase);
 	    		if (guessedLetters.contains(tmp)) {
 	    			wordProgress = wordProgress.append(letter);
 	    		} else {
-	    			wordProgress = wordProgress.append("-");
+	    			if (letter != ' ') {
+	    				wordProgress = wordProgress.append("-");
+	    			} else {
+	    				wordProgress = wordProgress.append(" ");	    				
+	    			}
 //	    			wordProgress = wordProgress.append((char)(150));
 	    		}
 	    	}
