@@ -166,7 +166,7 @@ public class Hangman {
 //	    			wordProgress = wordProgress.append((char)(150));
 	    		}
 	    	}
-    	} 
+    	}  
     	return new String(wordProgress);
     }
     /**

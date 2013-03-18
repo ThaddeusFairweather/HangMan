@@ -265,7 +265,7 @@ public class HangmanGUI extends JFrame {
 		lblWordProgress.setText(wordProgress);		
 		contentPane.repaint();
 		DisplayGuessedLetters(true);
-	} 
+	}  
 
 	private void GuessALetter() {
 		if (txtGuess.getText().trim().length() == 1) {

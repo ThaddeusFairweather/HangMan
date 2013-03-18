@@ -44,7 +44,7 @@ public class Config {
 	public HangmanGUI getHangmanGUI() {return hangmanGUI;}
 	
 	public Body getBody() {return body;}	// Data hiding violated
-	 
+	  
 	public Color getBackgroundColor(){ return backgroundColor;}
 	
 	public int getBaseHeight(){ return baseHeight;}
