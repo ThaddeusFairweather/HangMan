@@ -76,7 +76,7 @@ public class Body {
 			config.getHangmanGUI().showRightHand(false);
 
 			switch (victimIdxTmp) {
-			
+			 
 
 			case victimIdxRightHand:
 				//config.getHangmanGUI().showRightHand(true);				

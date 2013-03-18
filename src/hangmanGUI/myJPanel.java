@@ -26,7 +26,7 @@ public class myJPanel extends JPanel {
         DrawVictim(g);
    }
 	private void DrawAssembly(Graphics g) {
-		// Base  
+		// Base   
 		g.drawRect(config.getLeftMargin()
 				 , config.getTopMargin()  + config.getPoleHeight() + config.getArmHeight()
 				 , config.getBaseWidth()
