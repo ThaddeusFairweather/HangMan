@@ -1,5 +1,6 @@
 /**
  * Bill Nicholson
+ * nicholdw@ucmail.uc.edu
  * Little Hangman game
  */
 package hangmanGUI;
@@ -17,7 +18,8 @@ public class Config {
 	
 	public static enum victimIdxEnum{victimIdxNew, victimIdxHead, victimIdxTorso
 		                            ,victimIdxLeftArm, victimIdxRightArm
-		                            ,victimIdxLeftLeg, victimIdxRightLeg };
+		                            ,victimIdxLeftLeg, victimIdxRightLeg,
+		                            victimIdxLeftHand, victimIdxRightHand};
 	  
 	public Config() {
 		baseHeight = 20;
@@ -34,6 +36,12 @@ public class Config {
 	}
 	
 	private Body body;
+	private HangmanGUI hangmanGUI;
+	
+	public void setHangmanGUI(HangmanGUI hangmanGUI) {
+		this.hangmanGUI = hangmanGUI;
+	}
+	public HangmanGUI getHangmanGUI() {return hangmanGUI;}
 	
 	public Body getBody() {return body;}	// Data hiding violated
 	

@@ -1,5 +1,6 @@
 /**
  * Bill Nicholson
+ * nicholdw@ucmail.uc.edu
  * Little Hangman game
  * It's fun, really!
  */
@@ -15,7 +16,8 @@ public class Body {
 	private int legWidth, legLength;
 	private Config.victimIdxEnum victimIdx;
 	private Config config;
-	
+	private int handDiameter;
+
 	public Body(Config config) {
 		this.config = config;
 		headDiameter = 40;
@@ -26,8 +28,9 @@ public class Body {
 		legWidth = (torsoWidth/2) - 2;
 		legLength = 35;
 		victimIdx = Config.victimIdxEnum.victimIdxNew;		// No body parts will be drawn
+		handDiameter = 15;
 	}
-	
+
 	public void reset(){
 		victimIdx = Config.victimIdxEnum.victimIdxNew;		// No body parts will be drawn
 	}
@@ -69,8 +72,26 @@ public class Body {
 			 
 			g.setColor(Color.gray);
 			// List the body parts 'backward' so each case falls through to the next case.
+			config.getHangmanGUI().showLeftHand(false);
+			config.getHangmanGUI().showRightHand(false);
+
 			switch (victimIdxTmp) {
 			
+
+			case victimIdxRightHand:
+				//config.getHangmanGUI().showRightHand(true);				
+				g.drawArc(x + torsoWidth/2 + armWidth //+ handDiameter/2
+						, y + headDiameter + torsoHeight/4 - handDiameter/4
+						, handDiameter
+						, handDiameter, 0, 359);
+			
+			case victimIdxLeftHand:
+				//config.getHangmanGUI().showLeftHand(true);		
+				g.drawArc(x - torsoWidth/2 - armWidth - handDiameter
+						, y + headDiameter + torsoHeight/4 - handDiameter/4
+						, handDiameter
+						, handDiameter, 0, 359);
+								
 			case victimIdxRightLeg:
 				g.draw3DRect(x + 5
 						   , y + headDiameter + torsoHeight
@@ -114,11 +135,10 @@ public class Body {
 						, headDiameter
 						, headDiameter, 0, 359);
 			
-			
 			case victimIdxNew:	// No body parts have been hung, yet. 
-				
+
 				break;
-		
+
 			}
 //		}	// for (i = 0; i < 2; i++)
 	}

@@ -1,5 +1,6 @@
 /**
  * Bill Nicholson
+ * nicholdw@ucmail.uc.edu
  * Little Hangman game
  */
 package hangmanGUI;
@@ -52,7 +53,7 @@ public class HangmanGUI extends JFrame {
 	private JButton btnGuess;
 	private JLabel lblWordProgress;
 	private JLabel lblGuessedLetters;
-	private ImageCanvas cvsWinner, cvsLoser;
+	private ImageCanvas cvsWinner, cvsLoser, cvsRightHand, cvsLeftHand;	
 	private BufferedImage youWinImage;
 	private Config config;
 	private JMenuItem mntmResign;
@@ -77,6 +78,8 @@ public class HangmanGUI extends JFrame {
 	 */
 	public HangmanGUI() {
 		config = new Config();
+		config.setHangmanGUI(this);
+
 		setTitle("Your Hangman");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -156,11 +159,11 @@ public class HangmanGUI extends JFrame {
 		contentPane.add(lblWordProgress);
 		
 		cvsWinner = new ImageCanvas("Images/youWin.jpg");
-		cvsWinner.setBounds(160, 37, 100, 100);
+		cvsWinner.setBounds(281, 39, 100, 100);
 		contentPane.add(cvsWinner);
 		
 		cvsLoser = new ImageCanvas("Images/youLost.jpg");
-		cvsLoser.setBounds(160, 60, 100, 100);
+		cvsLoser.setBounds(281, 39, 100, 100);
 		contentPane.add(cvsLoser);
 		 
 		lblGuessedLetters = new JLabel("");
@@ -168,6 +171,16 @@ public class HangmanGUI extends JFrame {
 		lblGuessedLetters.setVerticalAlignment(SwingConstants.TOP);
 		lblGuessedLetters.setBounds(21, 223, 100, 14);
 		contentPane.add(lblGuessedLetters);
+		
+		cvsRightHand = new ImageCanvas("Images/rightHand.jpg");
+		cvsRightHand.setBounds(192, 116, 25, 18);
+		contentPane.add(cvsRightHand);
+		cvsRightHand.setVisible(false);
+		
+		cvsLeftHand = new ImageCanvas("Images/leftHand.jpg");
+		cvsLeftHand.setBounds(45, 116, 25, 18);
+		contentPane.add(cvsLeftHand);
+		cvsLeftHand.setVisible(false);
 
 		hangman = new Hangman(config);// A new instance of the game engine will default to idle mode.
 		PrepTheDisplay();
@@ -275,5 +288,11 @@ public class HangmanGUI extends JFrame {
 	private void DisplayGuessedLetters(boolean status) {
 		lblGuessedLetters.setText(hangman.getGuessedLetters());
 		lblGuessedLetters.setVisible(status);
+	}
+	public void showLeftHand(boolean status) {
+		cvsLeftHand.setVisible(status);
+	}
+	public void showRightHand(boolean status) {
+		cvsRightHand.setVisible(status);
 	}
 }

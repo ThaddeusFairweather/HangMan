@@ -1,5 +1,6 @@
 /**
  * Bill Nicholson
+ * nicholdw@ucmail.uc.edu
  * Little Hangman game
  */
 package hangmanGUI;

@@ -1,3 +1,7 @@
+/*
+ * Bill Nicholson
+ * nicholdw@ucmail.uc.edu
+ */
 package hangmanPackage;
 
 import hangmanGUI.Body;
@@ -9,10 +13,10 @@ import java.lang.*;
  */
 public class Hangman {
 	static public enum enumGameMode  {idle, inProgress, won, resigned, lost};
-	
+
 	private Config config;
 	private enumGameMode gameMode;
-	
+
     /**
      * This is the word that the player is trying to guess.
      */
@@ -26,7 +30,7 @@ public class Hangman {
     /**
      * This should match up with the number of body parts displayed on the gallows. 
      */
-    private int maxNumberOfGuesses = 6;
+    private int maxNumberOfGuesses = 8;
 
     /**
      * The list of letters that the player has already guessed
