@@ -5,6 +5,8 @@
  */
 package hangmanGUI;
 
+import hangmanPackage.Preferences;
+
 import java.awt.Color;
 
 public class Config {
@@ -15,6 +17,10 @@ public class Config {
 	private int poleOffsetFromLeftEdgeOfBase;
 	private int ropeLength;
 	private Color backgroundColor = new Color(238,238,238);
+	private String configFileName;
+	private Body body;
+	private HangmanGUI hangmanGUI;
+	private Preferences preferences;
 	
 	public static enum victimIdxEnum{victimIdxNew, victimIdxHead, victimIdxTorso
 		                            ,victimIdxLeftArm, victimIdxRightArm
@@ -33,10 +39,13 @@ public class Config {
 		poleOffsetFromLeftEdgeOfBase = 5;
 		ropeLength = 50;
 		body = new Body(this);
+		configFileName = "hangman.config";
+		preferences = new Preferences();
+		preferences.Load(configFileName);
 	}
-	
-	private Body body;
-	private HangmanGUI hangmanGUI;
+	public String getConfigFileName() {return configFileName;}
+	public Preferences getPreferences(){ return preferences;}
+	public void setPreferences(Preferences preferences) {this.preferences = preferences;}
 	
 	public void setHangmanGUI(HangmanGUI hangmanGUI) {
 		this.hangmanGUI = hangmanGUI;

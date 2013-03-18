@@ -92,6 +92,11 @@ public class HangmanGUI extends JFrame {
 		menuBar.add(mnFile);
 
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
+		mntmPreferences.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PreferencesGUI.launch(config);
+			}
+		});
 		mnFile.add(mntmPreferences);
 		
 		//JMenuItem mntmExit = new JMenuItem("Exit");

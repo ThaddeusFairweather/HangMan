@@ -7,13 +7,19 @@ package hangmanPackage;
 import hangmanGUI.Body;
 import hangmanGUI.Config;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.lang.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  */
 public class Hangman {
 	static public enum enumGameMode  {idle, inProgress, won, resigned, lost};
-
+	private static ArrayList<String> wordList;
 	private Config config;
 	private enumGameMode gameMode;
 
@@ -133,7 +139,13 @@ public class Hangman {
     
     private String getRandomWord() {
 //    	return "pplugh";
-    	return "Cat in the hat";
+    	if (wordList == null) {
+    		loadWordList();
+    	}
+    	int idx = new Random(config.getPreferences().getSeed()).nextInt(wordList.size());
+    	String word = wordList.get(idx);
+//    	return "Cat in the hat";
+    	return word;
     }
      
     public enumGameMode getGameMode() {return gameMode;}
@@ -176,6 +188,20 @@ public class Hangman {
     	if (gameMode == enumGameMode.inProgress){
     		gameMode = enumGameMode.resigned;
     	}
+    }
+    private int loadWordList() {
+    	int count = 0;
+    	String line;
+    	try {
+    		FileReader reader = new FileReader(config.getPreferences().getWordFileName());
+    		BufferedReader br = new BufferedReader(reader);
+    		wordList = new ArrayList<String>();
+    		while ((line = br.readLine()) != null) {
+    			wordList.add(line);
+    			count++;
+    		}
+    	} catch (Exception ex) {}
+    	return count;
     }
 }
 
