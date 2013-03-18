@@ -22,6 +22,7 @@ public class Hangman {
 	private static ArrayList<String> wordList;
 	private Config config;
 	private enumGameMode gameMode;
+	private Random random;
 
     /**
      * This is the word that the player is trying to guess.
@@ -142,7 +143,8 @@ public class Hangman {
     	if (wordList == null) {
     		loadWordList();
     	}
-    	int idx = new Random(config.getPreferences().getSeed()).nextInt(wordList.size());
+    	if (random == null) random = new Random(config.getPreferences().getSeed());
+    	int idx = random.nextInt(wordList.size());
     	String word = wordList.get(idx);
 //    	return "Cat in the hat";
     	return word;
@@ -158,7 +160,7 @@ public class Hangman {
     	StringBuilder wordProgress = new StringBuilder();
     	String word = getWord();
     	char letter, letterLowerCase;
-    	// This method could be called when a word has not yet been established so we check for null
+    	// This method could be called when a word has not yet been established, so we check for null to be safe...
     	if (word != null) {
         	String wordLowerCase = getWord().toLowerCase();
 	    	for (int i = 0; i < word.length(); i++) {
@@ -167,6 +169,7 @@ public class Hangman {
 	    		// The contains method requires an object that implements the CharSequence interface...
 	    		StringBuilder tmp = new StringBuilder(1);
 	    		tmp.append(letterLowerCase);
+	    		// If showItAll is true, the player lost or resigned and we are showing the whole word
 	    		if (guessedLetters.contains(tmp)) {
 	    			wordProgress = wordProgress.append(letter);
 	    		} else {

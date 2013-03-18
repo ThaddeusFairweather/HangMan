@@ -8,11 +8,26 @@ public class Preferences {
 
 	private String wordFileName;
 	private int seed = 42;
-	
+	private boolean showWordAfterLoss;
+	private boolean showWordAfterResign;
+
 	public Preferences() {
-		wordFileName = "hangman.wordlist";
+		wordFileName = "hangmanWordlist.txt";
+		showWordAfterLoss = true;
+		showWordAfterResign = true;
 	}
 
+	public boolean getshowWordAfterLoss() { return showWordAfterLoss;}
+	public boolean setshowWordAfterLoss(boolean showWordAfterLoss) {
+		this.showWordAfterLoss = showWordAfterLoss;  
+		return showWordAfterLoss;
+	}
+
+	public boolean getshowWordAfterResign() { return showWordAfterResign;}
+	public boolean setshowWordAfterResign(boolean showWordAfterResign) {
+		this.showWordAfterResign = showWordAfterResign;  
+		return showWordAfterResign;
+	}
 	public String getWordFileName(){return wordFileName;}
 	public String setWordFileName(String wordFileName){this.wordFileName = wordFileName; return wordFileName;}
 
@@ -24,7 +39,7 @@ public class Preferences {
 		
 		return result;
 	}
-	
+
 	public boolean Save(String fileName) {
 		boolean result = true;
 		try {
@@ -35,7 +50,7 @@ public class Preferences {
 		} catch (IOException x) {
 		    System.err.format("savePreferences(): IOException: %s%n", x);
 		}		
-		
+
 		return result;
 	}
 	

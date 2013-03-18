@@ -226,6 +226,7 @@ public class HangmanGUI extends JFrame {
 			cvsLoser.setVisible(false);
 			lblWordProgress.setVisible(true);
 			mntmResign.setEnabled(false);
+			lblWordProgress.setText(hangman.getWordProgress());
 			break;
 		case inProgress:
 			DisplayGameControls(true, true);
@@ -233,6 +234,7 @@ public class HangmanGUI extends JFrame {
 			cvsLoser.setVisible(false);
 			DisplayGuessedLetters(true);
 			mntmResign.setEnabled(true);
+			lblWordProgress.setText(hangman.getWordProgress());
 			break;
 		case lost:
 			DisplayGameControls(false, false);
@@ -241,6 +243,7 @@ public class HangmanGUI extends JFrame {
 			lblWordProgress.setVisible(true);
 			DisplayGuessedLetters(true);
 			mntmResign.setEnabled(false);
+			DisplayWordProgress(config.getPreferences().getshowWordAfterLoss());	
 			break;
 		case resigned:
 			DisplayGameControls(false, false);
@@ -249,11 +252,11 @@ public class HangmanGUI extends JFrame {
 			lblWordProgress.setVisible(true);
 			DisplayGuessedLetters(true);
 			mntmResign.setEnabled(false);
+			DisplayWordProgress(config.getPreferences().getshowWordAfterResign());	
 			break;
 		default:
 			break;
 		}
-		lblWordProgress.setText(hangman.getWordProgress());
 	}
 
 	private void DisplayGameControls(boolean visible, boolean enabled) {
@@ -265,8 +268,12 @@ public class HangmanGUI extends JFrame {
 	/**
 	 * Draw the word with underscores for unguessed letters
 	 */
-	private void DisplayWordProgress(){
-		String wordProgress = hangman.getWordProgress();
+	private void DisplayWordProgress(boolean showItAll){
+		String wordProgress;
+		if (showItAll) {
+			wordProgress = hangman.getWord();
+		} else
+			wordProgress = hangman.getWordProgress();
 		lblWordProgress.setText(wordProgress);		
 		contentPane.repaint();
 		DisplayGuessedLetters(true);
@@ -278,7 +285,7 @@ public class HangmanGUI extends JFrame {
 				StringBuilder letter = new StringBuilder(1);	// The one is the length of the object
 				letter.append(txtGuess.getText().trim().charAt(0));
 				hangman.guess(new String(letter));
-				DisplayWordProgress();
+				DisplayWordProgress(false);
 			} catch (GameOverException e) {
 				// We lost
 				PrepTheDisplay();
