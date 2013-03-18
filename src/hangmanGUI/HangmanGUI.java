@@ -55,6 +55,7 @@ public class HangmanGUI extends JFrame {
 	private ImageCanvas cvsWinner, cvsLoser;
 	private BufferedImage youWinImage;
 	private Config config;
+	private JMenuItem mntmResign;
 	/**
 	 * Launch the application.
 	 */
@@ -111,6 +112,16 @@ public class HangmanGUI extends JFrame {
 			}
 		});
 		mnGame.add(mntmNew);
+		
+		mntmResign = new JMenuItem("Resign");
+		mntmResign.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				hangman.Resign();
+				PrepTheDisplay();
+			}
+		});
+		mntmResign.setEnabled(false);
+		mnGame.add(mntmResign);
 		
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
@@ -178,6 +189,8 @@ public class HangmanGUI extends JFrame {
 		hangman.startNewGame(null);
 		PrepTheDisplay();
 		config.getBody().reset();
+		txtGuess.requestFocus();
+		mntmResign.setEnabled(true);
 	}
 
 	private void PrepTheDisplay(){
@@ -187,18 +200,21 @@ public class HangmanGUI extends JFrame {
 			cvsWinner.setVisible(false);
 			cvsLoser.setVisible(false);
 			DisplayGuessedLetters(false);
+			mntmResign.setEnabled(false);
 			break;
 		case won:
 			DisplayGameControls(false, false);
 			cvsWinner.setVisible(true);
 			cvsLoser.setVisible(false);
 			lblWordProgress.setVisible(true);
+			mntmResign.setEnabled(false);
 			break;
 		case inProgress:
 			DisplayGameControls(true, true);
 			cvsWinner.setVisible(false);
 			cvsLoser.setVisible(false);
 			DisplayGuessedLetters(true);
+			mntmResign.setEnabled(true);
 			break;
 		case lost:
 			DisplayGameControls(false, false);
@@ -206,6 +222,7 @@ public class HangmanGUI extends JFrame {
 			cvsLoser.setVisible(true);
 			lblWordProgress.setVisible(true);
 			DisplayGuessedLetters(true);
+			mntmResign.setEnabled(false);
 			break;
 		case resigned:
 			DisplayGameControls(false, false);
@@ -213,6 +230,7 @@ public class HangmanGUI extends JFrame {
 			cvsLoser.setVisible(true);
 			lblWordProgress.setVisible(true);
 			DisplayGuessedLetters(true);
+			mntmResign.setEnabled(false);
 			break;
 		default:
 			break;

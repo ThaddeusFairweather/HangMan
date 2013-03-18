@@ -165,5 +165,13 @@ public class Hangman {
     	}
     	return new String(wordProgress);
     }
+    /**
+     * Resign the game, if it is in progress.
+     */
+    public void Resign() {
+    	if (gameMode == enumGameMode.inProgress){
+    		gameMode = enumGameMode.resigned;
+    	}
+    }
 }
 
