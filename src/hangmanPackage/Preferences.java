@@ -1,6 +1,8 @@
 package hangmanPackage;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -12,19 +14,23 @@ public class Preferences {
 	private boolean showWordAfterResign;
 
 	public Preferences() {
+		// Defaults, just in case there's no config file.
+		setDefaults();
+	}
+
+	public void setDefaults() {
 		wordFileName = "hangmanWordlist.txt";
 		showWordAfterLoss = true;
 		showWordAfterResign = true;
 	}
-
-	public boolean getshowWordAfterLoss() { return showWordAfterLoss;}
-	public boolean setshowWordAfterLoss(boolean showWordAfterLoss) {
+	public boolean getShowWordAfterLoss() { return showWordAfterLoss;}
+	public boolean setShowWordAfterLoss(boolean showWordAfterLoss) {
 		this.showWordAfterLoss = showWordAfterLoss;  
 		return showWordAfterLoss;
 	}
 
-	public boolean getshowWordAfterResign() { return showWordAfterResign;}
-	public boolean setshowWordAfterResign(boolean showWordAfterResign) {
+	public boolean getShowWordAfterResign() { return showWordAfterResign;}
+	public boolean setShowWordAfterResign(boolean showWordAfterResign) {
 		this.showWordAfterResign = showWordAfterResign;  
 		return showWordAfterResign;
 	}
@@ -34,23 +40,38 @@ public class Preferences {
 	public int getSeed(){return seed;}
 	public int setSeed(int seed){this.seed = seed; return seed;}
 
-	public boolean Load(String fileName){
+	public boolean load(String fileName){
 		boolean result = true;
+		try {
+			FileReader reader = new FileReader(fileName);
+			BufferedReader br = new BufferedReader(reader);
+		    setWordFileName(br.readLine());
+		    setShowWordAfterLoss(br.readLine().equals("true"));
+		    setShowWordAfterResign(br.readLine().equals("true"));
+		    br.close();
+		} catch (IOException x) {
+		    System.err.format("Preferences.load(): IOException: %s%n", x);
+		    save(fileName);
+		} catch (Exception ex){
+			setDefaults();
+		    save(fileName);
+		}
 		
 		return result;
 	}
 
-	public boolean Save(String fileName) {
+	public boolean save(String fileName) {
 		boolean result = true;
 		try {
 			FileWriter writer = new FileWriter(fileName);
 			BufferedWriter br = new BufferedWriter(writer);
-		    br.write(wordFileName);
+		    br.write(wordFileName); br.newLine();
+		    br.write(showWordAfterLoss?"true":"false");br.newLine();
+		    br.write(showWordAfterResign?"true":"false");br.newLine();
 		    br.close();
 		} catch (IOException x) {
-		    System.err.format("savePreferences(): IOException: %s%n", x);
+		    System.err.format("Preferences.save(): IOException: %s%n", x);
 		}		
-
 		return result;
 	}
 	

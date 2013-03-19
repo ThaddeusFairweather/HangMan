@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
+import javax.swing.JCheckBox;
 
 public class PreferencesGUI extends JDialog {
 
@@ -35,6 +36,8 @@ public class PreferencesGUI extends JDialog {
 	//Create a file chooser
 	private  JFileChooser fc;
 	private static Config config;
+	private JCheckBox cbShowWordAfterResign;
+	private JCheckBox cbShowWordAfterLoss;
 
 	/**
 	 * Launch the application.
@@ -88,6 +91,15 @@ public class PreferencesGUI extends JDialog {
 			});
 			contentPanel.add(btnBrowse);
 		}
+		
+		cbShowWordAfterLoss = new JCheckBox("Show word after loss");
+		cbShowWordAfterLoss.setBounds(79, 35, 179, 23);
+		contentPanel.add(cbShowWordAfterLoss);
+		{
+			cbShowWordAfterResign = new JCheckBox("Show word after resign");
+			cbShowWordAfterResign.setBounds(79, 61, 179, 23);
+			contentPanel.add(cbShowWordAfterResign);
+		}
 
 		{
 			JPanel buttonPane = new JPanel();
@@ -120,11 +132,15 @@ public class PreferencesGUI extends JDialog {
 		}
 	}
 	public void importPreferences(){
-		config.getPreferences().Load(config.getConfigFileName());
+		//config.getPreferences().load(config.getConfigFileName());
 		txtFileName.setText(config.getPreferences().getWordFileName());
+		cbShowWordAfterLoss.setSelected(config.getPreferences().getShowWordAfterLoss());
+		cbShowWordAfterResign.setSelected(config.getPreferences().getShowWordAfterResign());
 	}
 	private void exportPreferences(){
 	    config.getPreferences().setWordFileName(txtFileName.getText().trim());
-	    config.getPreferences().Save(config.getConfigFileName());	
+	    config.getPreferences().setShowWordAfterLoss(cbShowWordAfterLoss.isSelected());
+	    config.getPreferences().setShowWordAfterResign(cbShowWordAfterResign.isSelected());
+	    config.getPreferences().save(config.getConfigFileName());	
 	}
 }

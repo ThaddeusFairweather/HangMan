@@ -136,6 +136,11 @@ public class HangmanGUI extends JFrame {
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("About");
 		mnHelp.add(mntmNewMenuItem_1);
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				About.launch();
+			}
+		});
 		contentPane = new myJPanel(config);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -243,7 +248,7 @@ public class HangmanGUI extends JFrame {
 			lblWordProgress.setVisible(true);
 			DisplayGuessedLetters(true);
 			mntmResign.setEnabled(false);
-			DisplayWordProgress(config.getPreferences().getshowWordAfterLoss());	
+			DisplayWordProgress(config.getPreferences().getShowWordAfterLoss());	
 			break;
 		case resigned:
 			DisplayGameControls(false, false);
@@ -252,7 +257,7 @@ public class HangmanGUI extends JFrame {
 			lblWordProgress.setVisible(true);
 			DisplayGuessedLetters(true);
 			mntmResign.setEnabled(false);
-			DisplayWordProgress(config.getPreferences().getshowWordAfterResign());	
+			DisplayWordProgress(config.getPreferences().getShowWordAfterLoss());	
 			break;
 		default:
 			break;

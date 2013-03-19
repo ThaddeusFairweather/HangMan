@@ -41,7 +41,7 @@ public class Config {
 		body = new Body(this);
 		configFileName = "hangman.config";
 		preferences = new Preferences();
-		preferences.Load(configFileName);
+		preferences.load(configFileName);
 	}
 	public String getConfigFileName() {return configFileName;}
 	public Preferences getPreferences(){ return preferences;}
